@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- <div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow p-4">
+
+                <h2 class="text-center mb-4">
+                    Login Page
+                </h2>
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+
+                        <label for="username"
+                               class="form-label">
+                            Username
+                        </label>
+
+                        <input
+                            id="username"
+                            type="text"
+                            name="username"
+                            class="form-control"
+                            placeholder="Enter Username"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="password"
+                               class="form-label">
+                            Password
+                        </label>
+
+                        <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Enter Password"
+                            required>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success w-100">
+
+                        Login
+
+                    </button>
+
+                </form>
+
+                <hr>
+
+                <a href="{% url 'register' %}"
+                   class="btn btn-primary w-100">
+
+                    Create New Account
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div> -->
+
+
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-5 col-md-7">
+
+            <div class="card border-0 shadow-lg">
+
+                <div class="card-header bg-dark text-white text-center py-4">
+                    <h2 class="mb-0">
+                        🔐 Login
+                    </h2>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-bold">
+                                Username
+                            </label>
+
+                            {{ forms.username }}
+
+                            <div class="text-danger small mt-1">
+                                {{ forms.username.errors }}
+                            </div>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+                                Password
+                            </label>
+
+                            {{ forms.password }}
+
+                            <div class="text-danger small mt-1">
+                                {{ forms.password.errors }}
+                            </div>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-success w-100 py-2">
+                            Login
+                        </button>
+
+                    </form>
+
+                    <hr>
+
+                    <div class="text-center">
+
+                        <p class="text-muted">
+                            Don't have an account?
+                        </p>
+
+                        <a href="{% url 'register' %}"
+                           class="btn btn-outline-primary w-100">
+                            Create New Account
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="card-footer text-center bg-light">
+                    <small class="text-muted">
+                        Welcome back to Ecommerce Store
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

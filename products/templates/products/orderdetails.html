@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .product-card{
+        transition: all 0.3s ease;
+    }
+
+    .product-card:hover{
+        transform: translateY(-5px);
+    }
+
+    .info-card{
+        border-radius:12px;
+        border:1px solid #e9ecef;
+        background:#fff;
+        padding:20px;
+        height:100%;
+    }
+
+    .order-status{
+        font-size:16px;
+        padding:10px 20px;
+    }
+</style>
+
+<div class="container py-5">
+
+    <!-- Header -->
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold">
+            📦 Order Details
+        </h1>
+
+        <p class="text-muted">
+            Review your order information
+        </p>
+
+        {% if order.status == 'Delivered' %}
+            <span class="badge bg-success order-status">
+                {{ order.status }}
+            </span>
+
+        {% elif order.status == 'Pending' %}
+            <span class="badge bg-warning text-dark order-status">
+                {{ order.status }}
+            </span>
+
+        {% elif order.status == 'Cancelled' %}
+            <span class="badge bg-danger order-status">
+                {{ order.status }}
+            </span>
+
+        {% else %}
+            <span class="badge bg-primary order-status">
+                {{ order.status }}
+            </span>
+        {% endif %}
+
+    </div>
+
+    <!-- Customer Information -->
+    <div class="card shadow border-0 mb-5">
+
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">
+                👤 Customer Information
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <div class="info-card text-center">
+                        <h6>Name</h6>
+                        <p class="mb-0 text-muted">
+                            {{ order.name }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="info-card text-center">
+                        <h6>Phone</h6>
+                        <p class="mb-0 text-muted">
+                            {{ order.phone }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="info-card text-center">
+                        <h6>Address</h6>
+                        <p class="mb-0 text-muted">
+                            {{ order.address }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="info-card text-center">
+                        <h6>Total Amount</h6>
+                        <h4 class="text-success mb-0">
+                            ₹{{ order.total_amount }}
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Products -->
+    <div class="row">
+
+        {% for item in order.orderitem_set.all %}
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <div class="card shadow-sm border-0 h-100 product-card">
+
+                {% if item.product.image %}
+                <img src="{{ item.product.image.url }}"
+                     class="card-img-top"
+                     style="height:250px; object-fit:cover;">
+                {% endif %}
+
+                <div class="card-body text-center">
+
+                    <h5 class="fw-bold">
+                        {{ item.product.name }}
+                    </h5>
+
+                    <p class="text-success fw-bold mb-2">
+                        ₹{{ item.product.price }}
+                    </p>
+
+                    <div class="d-flex justify-content-center gap-2">
+
+                        <span class="badge bg-primary">
+                            Qty: {{ item.quantity }}
+                        </span>
+
+                        <span class="badge bg-success">
+                            ₹{{ item.product.price|floatformat:0 }}
+                        </span>
+
+                    </div>
+
+                    <hr>
+
+                    <h6>
+                        Item Total
+                    </h6>
+
+                    <h5 class="text-success">
+                        ₹{% widthratio item.product.price 1 item.quantity %}
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- Order Summary -->
+    <div class="card shadow border-0 mt-4">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h4 class="mb-0">
+                    Grand Total
+                </h4>
+
+                <h3 class="text-success mb-0">
+                    ₹{{ order.total_amount }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center mt-4">
+
+        <a href="{% url 'myorder' %}"
+           class="btn btn-primary btn-lg">
+            ← Back to My Orders
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

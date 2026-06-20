@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .order-card{
+        border-radius:15px;
+        overflow:hidden;
+    }
+
+    .product-card{
+        transition:all 0.3s ease;
+    }
+
+    .product-card:hover{
+        transform:translateY(-5px);
+    }
+
+    .order-summary-box{
+        border:1px solid #e9ecef;
+        border-radius:10px;
+        padding:15px;
+        text-align:center;
+        height:100%;
+        background:#fff;
+    }
+</style>
+
+<div class="container py-5">
+
+    <!-- Page Heading -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold display-5">
+            📦 My Orders
+        </h1>
+
+        <p class="text-muted fs-5">
+            Track and manage all your purchases
+        </p>
+    </div>
+
+    {% for ord in order %}
+
+    <div class="card border-0 shadow-lg mb-5 order-card">
+
+        <!-- Order Header -->
+        <div class="card-header bg-dark text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <h5 class="mb-1">
+                        Order #{{ ord.id }}
+                    </h5>
+
+                    {% if ord.created_at %}
+                    <small>
+                        {{ ord.created_at }}
+                    </small>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <span class="badge bg-success fs-6">
+                        Delivered
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Order Body -->
+        <div class="card-body">
+
+            <!-- Customer Details -->
+            <div class="row g-3 mb-4">
+
+                <div class="col-md-3">
+                    <div class="order-summary-box">
+                        <h6>👤 Customer</h6>
+                        <p class="text-muted mb-0">
+                            {{ ord.name }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="order-summary-box">
+                        <h6>📞 Phone</h6>
+                        <p class="text-muted mb-0">
+                            {{ ord.phone }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="order-summary-box">
+                        <h6>📍 Address</h6>
+                        <p class="text-muted mb-0">
+                            {{ ord.address }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="order-summary-box">
+                        <h6>💰 Total Amount</h6>
+                        <h4 class="text-success mb-0">
+                            ₹{{ ord.total_amount }}
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-end mb-4">
+                <a href="{% url 'orderdetails' ord.id %}"
+                   class="btn btn-primary">
+                    View Order Details
+                </a>
+            </div>
+
+            <hr>
+
+            <!-- Products -->
+            <div class="row">
+
+                {% for item in ord.orderitem_set.all %}
+
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+
+                    <div class="card h-100 border-0 shadow-sm product-card">
+
+                        {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}"
+                             class="card-img-top"
+                             style="height:220px; object-fit:cover;">
+                        {% endif %}
+
+                        <div class="card-body text-center">
+
+                            <h6 class="fw-bold">
+                                {{ item.product.name }}
+                            </h6>
+
+                            <p class="text-success fw-bold mb-2">
+                                ₹{{ item.product.price }}
+                            </p>
+
+                            <span class="badge bg-primary">
+                                Qty : {{ item.quantity }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer bg-light">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0">
+                    Total Paid
+                </h5>
+
+                <h4 class="text-success mb-0">
+                    ₹{{ ord.total_amount }}
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="card shadow-lg border-0 text-center p-5">
+
+        <h2 class="mb-3">
+            📭 No Orders Yet
+        </h2>
+
+        <p class="text-muted">
+            Looks like you haven't placed any orders yet.
+        </p>
+
+        <a href="{% url 'product_list' %}"
+           class="btn btn-primary">
+            Continue Shopping
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

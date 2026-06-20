@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-lg">
+
+                <!-- Header -->
+                <div class="card-header bg-dark text-white text-center py-4">
+
+                    <div class="mb-2">
+                        <span style="font-size:60px;">
+                            👤
+                        </span>
+                    </div>
+
+                    <h2 class="mb-0">
+                        User Profile
+                    </h2>
+
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-4">
+
+                    <div class="row g-3">
+
+                        <div class="col-12">
+
+                            <div class="border rounded p-3">
+
+                                <h6 class="text-muted mb-1">
+                                    Username
+                                </h6>
+
+                                <h5 class="mb-0">
+                                    {{ user.username }}
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <div class="border rounded p-3">
+
+                                <h6 class="text-muted mb-1">
+                                    Email Address
+                                </h6>
+
+                                <h5 class="mb-0">
+                                    {{ user.email }}
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <div class="border rounded p-3 bg-light">
+
+                                <h6 class="text-muted mb-1">
+                                    Total Orders
+                                </h6>
+
+                                <h3 class="text-success mb-0">
+                                    {{ total_order }}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Quick Actions -->
+                    <div class="d-grid gap-2">
+
+                        <a href="{% url 'myorder' %}"
+                           class="btn btn-primary">
+
+                            📦 My Orders
+
+                        </a>
+
+                        <a href="{% url 'product_list' %}"
+                           class="btn btn-outline-success">
+
+                            🛍 Continue Shopping
+
+                        </a>
+
+                        <a href="{% url 'wishlist_view' %}"
+                           class="btn btn-outline-danger">
+
+                            ❤️ Wishlist
+
+                        </a>
+
+                        <a href="{% url 'logout_view' %}"
+                           class="btn btn-danger">
+
+                            🚪 Logout
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer text-center bg-light">
+
+                    <small class="text-muted">
+                        Thank you for shopping with us ❤️
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

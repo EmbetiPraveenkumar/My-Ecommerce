@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .hero-section{
+        background: linear-gradient(135deg,#0d6efd,#6610f2);
+        color:white;
+        border-radius:20px;
+        padding:50px 30px;
+        margin-bottom:30px;
+    }
+
+    .product-card{
+        border:none;
+        border-radius:15px;
+        overflow:hidden;
+        transition:all 0.3s ease;
+    }
+
+    .product-card:hover{
+        transform:translateY(-8px);
+        box-shadow:0 10px 25px rgba(0,0,0,.15);
+    }
+
+    .product-image{
+        height:250px;
+        object-fit:cover;
+    }
+
+    .category-btn{
+        border-radius:50px;
+    }
+
+    .search-box{
+        border-radius:50px;
+        overflow:hidden;
+    }
+
+    .search-box input{
+        border:none;
+    }
+
+    .search-box button{
+        border-radius:0;
+    }
+
+    .price{
+        font-size:1.2rem;
+        font-weight:700;
+        color:#198754;
+    }
+</style>
+
+<div class="container py-4">
+
+    <!-- Hero Banner -->
+    <div class="hero-section text-center">
+
+        <h1 class="display-5 fw-bold">
+            🛍 Welcome to Ecommerce Store
+        </h1>
+
+        <p class="lead">
+            Discover amazing products at the best prices.
+        </p>
+
+    </div>
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold">
+            All Products
+        </h2>
+
+        <a href="{% url 'wishlist_view' %}"
+           class="btn btn-danger">
+            ❤️ Wishlist
+        </a>
+
+    </div>
+
+    <!-- Search -->
+    <form action="{% url 'product_list' %}" method="GET" class="mb-4">
+
+        <div class="input-group shadow-sm search-box">
+
+            <input type="text"
+                   name="q"
+                   class="form-control form-control-lg"
+                   placeholder="Search products..."
+                   value="{{ request.GET.q }}">
+
+            <button class="btn btn-primary px-4">
+                🔍 Search
+            </button>
+
+        </div>
+
+    </form>
+
+    {% if query %}
+    <div class="alert alert-info shadow-sm">
+        Search Results For:
+        <strong>{{ query }}</strong>
+    </div>
+    {% endif %}
+
+    <!-- Categories -->
+    <div class="mb-4">
+
+        <a href="{% url 'product_list' %}"
+           class="btn btn-dark category-btn me-2 mb-2">
+            All
+        </a>
+
+        {% for cat in category %}
+
+        <a href="?category={{ cat.id }}"
+           class="btn btn-outline-primary category-btn me-2 mb-2">
+            {{ cat.name }}
+        </a>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- Sort -->
+    <form method="GET"
+          action="{% url 'product_list' %}"
+          class="row g-2 align-items-center mb-4">
+
+        <div class="col-md-3">
+
+            <select name="sort" class="form-select">
+
+                <option value="">Sort Products</option>
+
+                <option value="low">
+                    Price Low → High
+                </option>
+
+                <option value="high">
+                    Price High → Low
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <button type="submit"
+                    class="btn btn-success w-100">
+                Apply
+            </button>
+
+        </div>
+
+    </form>
+
+    <!-- Products -->
+    <div class="row">
+
+        {% for product in page_obj %}
+
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+
+            <div class="card h-100 shadow-sm product-card">
+
+                {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     class="card-img-top product-image">
+                {% endif %}
+
+                <div class="card-body text-center d-flex flex-column">
+
+                    <h5 class="fw-bold">
+                        {{ product.name }}
+                    </h5>
+
+                    <div class="price mb-3">
+                        ₹{{ product.price }}
+                    </div>
+
+                    <div class="d-grid gap-2 mt-auto">
+
+                        <a href="{% url 'product_details' product.id %}"
+                           class="btn btn-outline-primary">
+                            View Details
+                        </a>
+
+                        <a href="{% url 'wishlist' product.id %}"
+                           class="btn btn-outline-danger">
+                            ❤️ Add Wishlist
+                        </a>
+
+                        <a href="{% url 'add_to_cart' product.id %}"
+                           class="btn btn-primary">
+                            🛒 Add To Cart
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="alert alert-warning text-center">
+
+            No Products Found :
+            <strong>{{ query }}</strong>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- Pagination -->
+    <nav class="mt-4">
+
+        <ul class="pagination justify-content-center">
+
+            {% if page_obj.has_previous %}
+
+            <li class="page-item">
+
+                <a class="page-link"
+                   href="?page={{ page_obj.previous_page_number }}">
+                    Previous
+                </a>
+
+            </li>
+
+            {% endif %}
+
+            <li class="page-item active">
+
+                <span class="page-link">
+
+                    {{ page_obj.number }}
+
+                    /
+
+                    {{ page_obj.paginator.num_pages }}
+
+                </span>
+
+            </li>
+
+            {% if page_obj.has_next %}
+
+            <li class="page-item">
+
+                <a class="page-link"
+                   href="?page={{ page_obj.next_page_number }}">
+                    Next
+                </a>
+
+            </li>
+
+            {% endif %}
+
+        </ul>
+
+    </nav>
+
+</div>
+
+{% endblock %}

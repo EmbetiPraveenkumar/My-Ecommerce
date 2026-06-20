@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- <div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Checkout</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <h4 class="text-success mb-4">
+                        Total Amount: ₹{{ total_price }}
+                    </h4>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Customer Name
+                            </label>
+                            <input
+                                type="text"
+                                name="customer_name"
+                                class="form-control"
+                                placeholder="Enter your name"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Phone Number
+                            </label>
+                            <input
+                                type="text"
+                                name="phone"
+                                class="form-control"
+                                placeholder="Enter phone number"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Address
+                            </label>
+                            <textarea
+                                name="address"
+                                class="form-control"
+                                rows="4"
+                                placeholder="Enter delivery address"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100"
+                        >
+                            Place Order
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div> -->
+
+
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-lg">
+
+                <!-- Header -->
+                <div class="card-header bg-dark text-white text-center py-4">
+
+                    <h2 class="mb-0">
+                        🛍️ Checkout
+                    </h2>
+
+                    <small>
+                        Complete your order details
+                    </small>
+
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-4">
+
+                    <!-- Order Summary -->
+                    <div class="card bg-light border-0 mb-4">
+
+                        <div class="card-body text-center">
+
+                            <h5 class="text-muted">
+                                Total Payable Amount
+                            </h5>
+
+                            <h1 class="text-success fw-bold">
+                                ₹{{ total_price }}
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <!-- Name -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+                                👤 Customer Name
+                            </label>
+
+                            {{ form.name }}
+
+                            <div class="text-danger small mt-1">
+                                {{ form.name.errors }}
+                            </div>
+
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+                                📞 Phone Number
+                            </label>
+
+                            {{ form.phone }}
+
+                            <div class="text-danger small mt-1">
+                                {{ form.phone.errors }}
+                            </div>
+
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+                                📍 Delivery Address
+                            </label>
+
+                            {{ form.address }}
+
+                            <div class="text-danger small mt-1">
+                                {{ form.address.errors }}
+                            </div>
+
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-grid gap-2">
+
+                            <button
+                                type="submit"
+                                class="btn btn-success btn-lg">
+
+                                Place Order 🚀
+
+                            </button>
+
+                            <a href="{% url 'cart_view' %}"
+                               class="btn btn-outline-secondary">
+
+                                ← Back to Cart
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer bg-light text-center">
+
+                    <small class="text-muted">
+                        🔒 Secure Checkout • Fast Delivery • Trusted Payments
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

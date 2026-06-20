@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header bg-success text-white text-center">
+                    <h3 class="mb-0">
+                        💳 Secure Checkout
+                    </h3>
+                </div>
+
+                <div class="card-body text-center p-5">
+
+                    <h5 class="text-muted">
+                        Total Amount
+                    </h5>
+
+                    <h1 class="text-success fw-bold mb-4">
+                        ₹{{ total_price }}
+                    </h1>
+
+                    <hr>
+
+                    <p class="text-muted mb-4">
+                        Complete your payment securely using Razorpay.
+                    </p>
+
+                    <button id="rzp-button"
+                            class="btn btn-success btn-lg w-100 mb-3">
+                        💳 Pay Now
+                    </button>
+
+                    <!-- For Testing -->
+                    <a href="{% url 'payment_success' %}"
+                       class="btn btn-outline-secondary w-100">
+                        Test Payment Success
+                    </a>
+
+                </div>
+
+                <div class="card-footer text-center text-muted">
+                    🔒 100% Secure Payment Gateway
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+var options = {
+    key: '{{ key_id }}',
+    amount: '{{ payment.amount }}',
+    currency: '{{ payment.currency }}',
+    name: 'My Ecommerce',
+    description: 'Order Payment',
+    order_id: '{{ payment.id }}',
+
+    handler: function(response) {
+        window.location.href =
+        '/products/payment_success/?payment_id=' +
+        response.razorpay_payment_id;
+    }
+};
+
+console.log(options);
+
+var rzp = new Razorpay(options);
+
+document.getElementById('rzp-button').onclick = function(e) {
+    rzp.open();
+    e.preventDefault();
+};
+</script>
+
+{% endblock %}
