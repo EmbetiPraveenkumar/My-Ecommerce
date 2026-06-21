@@ -18,7 +18,7 @@ def product_list(request):
     categ_id=request.GET.get('category')  # category
 
     sort_items = request.GET.get('sort')
-    products = Product.objects.all()   
+    products = Product.objects.all().order_by(id)   
     categories = Category.objects.all()
     
 
